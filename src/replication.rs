@@ -12,6 +12,7 @@ use std::{
     task::Poll,
     time::{SystemTime, UNIX_EPOCH},
 };
+use serde::Deserialize;
 use tokio::sync::{broadcast, oneshot};
 use tokio_postgres::{NoTls, SimpleQueryMessage};
 use tracing::{debug, trace};
@@ -120,7 +121,8 @@ pub async fn start_streaming_changes(
             Some(Ok(event)) if event[0] == b'w' => {
                 let row_message = RowMessage::decode(&event[25..]).unwrap();
                 debug!("Got XLogData/data-change event: {:?}", row_message);
-
+                println!("{:?}\n", row_message);
+                dbg!(serde_json::to_value(&row_message));
                 match row_message.op {
                     Some(op) if op == Op::Begin as i32 => {
                         transaction = Some(Transaction {

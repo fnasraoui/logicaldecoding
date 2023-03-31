@@ -545,6 +545,8 @@ dependencies = [
  "prost",
  "prost-build",
  "rand",
+ "serde",
+ "serde_json",
  "sqlx",
  "tokio",
  "tokio-postgres",

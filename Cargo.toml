@@ -16,6 +16,8 @@ tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.16", features = ["env-filter"] }
 uuid = { version = "1.2.1", features = ["v4"] }
 prost = "0.11.2"
+serde = "*"
+serde_json = "*"
 
 [dev-dependencies]
 crossbeam-channel = "0.5.6"
