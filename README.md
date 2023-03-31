@@ -34,9 +34,10 @@ This test attempts to perform deterministic simulation by first attaching the `l
 1. run `docker-compose up` to start the postgres container locally
 2. Run `cargo install sqlx-cli` to set up the [sqlx](https://github.com/launchbadge/sqlx) command line utility to allow database migrations.
 3. Run `sqlx migrate run` to set up the intial database.
-4. Run `cargo run`.
-5. Run `docker exec -it <CONTAINER_ID> psql -U postgres` to connect to your local postgres container [you could grab the container ID using `docker ps -f name=postgres`]
-6. Run the following to create a new table
+4. Run `export DATABASE_URL="postgres://postgres:password@localhost:5432/postgres"`
+5. Run `cargo run`. 
+6. Run `docker exec -it <CONTAINER_ID> psql -U postgres` to connect to your local postgres container [you could grab the container ID using `docker ps -f name=postgres`]
+7. Run the following to create a new table
    ```
    CREATE TABLE demo_postgres_cdc (
     id SERIAL PRIMARY KEY,
@@ -45,7 +46,7 @@ This test attempts to perform deterministic simulation by first attaching the `l
     email TEXT NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT TRUE);
    ```
-7. Run the following to Insert 20 random records into the demo_table
+8. Run the following to Insert 20 random records into the demo_table
    ```
    INSERT INTO demo_postgres_cdc (name, age, email, is_active)
    SELECT
@@ -54,7 +55,7 @@ This test attempts to perform deterministic simulation by first attaching the `l
    'user' || generate_series(1, 20) || '@example.com' AS email,
    (random() > 0.5) AS is_active;
     ```
-8. Run the following to Update a random record in the demo_table
+9. Run the following to Update a random record in the demo_table
     ```
     UPDATE demo_postgres_cdc
     SET                                                                            
@@ -65,11 +66,11 @@ This test attempts to perform deterministic simulation by first attaching the `l
     WHERE id = (SELECT id FROM demo_postgres_cdc ORDER BY random() LIMIT 1);
     ```
 
-9. Run the following to Delete a random record from the demo_table
-    ```
-   DELETE FROM demo_postgres_cdc
-    WHERE id = (SELECT id FROM demo_postgres_cdc ORDER BY random() LIMIT 1);
-    ```
+10. Run the following to Delete a random record from the demo_table
+     ```
+    DELETE FROM demo_postgres_cdc
+     WHERE id = (SELECT id FROM demo_postgres_cdc ORDER BY random() LIMIT 1);
+     ```
 
 
 ## Further
