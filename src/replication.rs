@@ -122,7 +122,8 @@ pub async fn start_streaming_changes(
                 let row_message = RowMessage::decode(&event[25..]).unwrap();
                 debug!("Got XLogData/data-change event: {:?}", row_message);
                 println!("{:?}\n", row_message);
-                dbg!(serde_json::to_value(&row_message));
+                let v = serde_json::to_value(&row_message).unwrap();
+                println!("{}", serde_json::to_string_pretty(&v).unwrap());
                 match row_message.op {
                     Some(op) if op == Op::Begin as i32 => {
                         transaction = Some(Transaction {
