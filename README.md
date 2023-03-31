@@ -31,10 +31,12 @@ This test attempts to perform deterministic simulation by first attaching the `l
 
 ## DEMO
 
+before starting if you're running your postgres instance on a different port make sure 
+to change the file [replication.rs](src%2Freplication.rs) `db_config` variable to make it match your port 
 1. run `docker-compose up` to start the postgres container locally
 2. Run `cargo install sqlx-cli` to set up the [sqlx](https://github.com/launchbadge/sqlx) command line utility to allow database migrations.
 3. Run `sqlx migrate run` to set up the intial database.
-4. Run `export DATABASE_URL="postgres://postgres:password@localhost:5432/postgres"`
+4. Run `export DATABASE_URL="postgres://postgres:password@localhost:5432/postgres"` (make sure to update the port accordantly)
 5. Run `cargo run`. 
 6. Run `docker exec -it <CONTAINER_ID> psql -U postgres` to connect to your local postgres container [you could grab the container ID using `docker ps -f name=postgres`]
 7. Run the following to create a new table
